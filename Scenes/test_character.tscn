@@ -1,0 +1,192 @@
+[gd_scene load_steps=14 format=3 uid="uid://dx42ep1hy05bl"]
+
+[ext_resource type="Script" path="res://Scenes/test_character.gd" id="1_rjxq4"]
+[ext_resource type="Script" path="res://Classes/inventory.gd" id="2_1g00i"]
+[ext_resource type="PackedScene" uid="uid://owdtmj4u7ps1" path="res://Scenes/inventory.tscn" id="2_xgufh"]
+[ext_resource type="Shader" path="res://Shaders/screenpixelization.gdshader" id="3_ec8fi"]
+[ext_resource type="Texture2D" uid="uid://d1xveej3p25o5" path="res://icon.svg" id="3_qy4t4"]
+[ext_resource type="PackedScene" uid="uid://g5jp47wx0eua" path="res://Scenes/test_interaction.tscn" id="4_ytkwm"]
+
+[sub_resource type="Resource" id="Resource_2x2e1"]
+script = ExtResource("2_1g00i")
+slots = Array[Resource("res://Classes/item.gd")]([])
+
+[sub_resource type="CapsuleShape3D" id="CapsuleShape3D_qamml"]
+height = 1.8
+
+[sub_resource type="ViewportTexture" id="ViewportTexture_8m6i1"]
+viewport_path = NodePath("InventoryViewport/PlayerViewport")
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_kqoif"]
+resource_local_to_scene = true
+shader = ExtResource("3_ec8fi")
+shader_parameter/amount = 220
+shader_parameter/SCREEN_TEXTURE = SubResource("ViewportTexture_8m6i1")
+
+[sub_resource type="ViewportTexture" id="ViewportTexture_a7ekp"]
+viewport_path = NodePath("InventoryViewport/ItemViewport")
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_ui7hd"]
+resource_local_to_scene = true
+shader = ExtResource("3_ec8fi")
+shader_parameter/amount = 200
+shader_parameter/SCREEN_TEXTURE = SubResource("ViewportTexture_a7ekp")
+
+[sub_resource type="ViewportTexture" id="ViewportTexture_tbewj"]
+viewport_path = NodePath("SubViewport")
+
+[node name="CharacterBody3D" type="CharacterBody3D"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, 0)
+script = ExtResource("1_rjxq4")
+Equipment = SubResource("Resource_2x2e1")
+
+[node name="Body" type="CollisionShape3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.1, 0)
+shape = SubResource("CapsuleShape3D_qamml")
+
+[node name="InventoryViewport" type="SubViewportContainer" parent="."]
+light_mask = 7
+visibility_layer = 7
+z_index = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+stretch = true
+
+[node name="PlayerViewport" type="SubViewport" parent="InventoryViewport"]
+handle_input_locally = false
+size = Vector2i(1280, 720)
+render_target_update_mode = 4
+
+[node name="Camera3D" type="Camera3D" parent="InventoryViewport/PlayerViewport"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.5, 0)
+cull_mask = 1048031
+
+[node name="ItemViewport" type="SubViewport" parent="InventoryViewport"]
+transparent_bg = true
+handle_input_locally = false
+canvas_cull_mask = 4294967293
+size = Vector2i(1280, 720)
+render_target_update_mode = 4
+
+[node name="ItemCam" type="Camera3D" parent="InventoryViewport/ItemViewport"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.5, 0)
+cull_mask = 1047584
+
+[node name="PixelizeViewport" type="SubViewport" parent="InventoryViewport"]
+transparent_bg = true
+handle_input_locally = false
+canvas_cull_mask = 4294967293
+size = Vector2i(1280, 720)
+render_target_update_mode = 4
+
+[node name="CanvasLayer" type="CanvasLayer" parent="InventoryViewport/PixelizeViewport"]
+layer = 2
+
+[node name="Shader" type="ColorRect" parent="InventoryViewport/PixelizeViewport/CanvasLayer"]
+material = SubResource("ShaderMaterial_kqoif")
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+
+[node name="CanvasLayer2" type="CanvasLayer" parent="InventoryViewport/PixelizeViewport"]
+layer = 3
+
+[node name="Shader" type="ColorRect" parent="InventoryViewport/PixelizeViewport/CanvasLayer2"]
+material = SubResource("ShaderMaterial_ui7hd")
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+
+[node name="InventoryViewport" type="SubViewport" parent="InventoryViewport"]
+transparent_bg = true
+handle_input_locally = false
+canvas_cull_mask = 4294966279
+size = Vector2i(1280, 720)
+render_target_update_mode = 4
+
+[node name="CanvasLayer" type="CanvasLayer" parent="InventoryViewport/InventoryViewport"]
+layer = 10
+
+[node name="NormalCam" type="Camera3D" parent="InventoryViewport/InventoryViewport/CanvasLayer"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.5, 0)
+cull_mask = 1048064
+
+[node name="Container" parent="InventoryViewport/InventoryViewport/CanvasLayer" instance=ExtResource("2_xgufh")]
+visible = false
+light_mask = 2
+visibility_layer = 2
+offset_left = 653.0
+offset_top = 121.0
+offset_right = 952.0
+offset_bottom = 539.0
+
+[node name="Inventory" parent="InventoryViewport/InventoryViewport/CanvasLayer" instance=ExtResource("2_xgufh")]
+visible = false
+light_mask = 2
+visibility_layer = 2
+offset_left = 202.0
+offset_top = 118.0
+offset_right = 501.0
+offset_bottom = 536.0
+
+[node name="Dot" type="ColorRect" parent="InventoryViewport/InventoryViewport/CanvasLayer"]
+light_mask = 3
+visibility_layer = 3
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -1.5
+offset_top = -1.5
+offset_right = 1.5
+offset_bottom = 1.5
+grow_horizontal = 2
+grow_vertical = 2
+size_flags_horizontal = 4
+size_flags_vertical = 4
+mouse_filter = 2
+
+[node name="Pivot" type="Node3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.5, 0)
+
+[node name="PlayerCamera" type="Node3D" parent="Pivot"]
+
+[node name="Hand" type="Node3D" parent="Pivot/PlayerCamera"]
+transform = Transform3D(-1, 0, 0, 0, 1, 0, 0, 0, 1, 0.25, -0.2, -0.5)
+
+[node name="Pointer" type="RayCast3D" parent="Pivot/PlayerCamera"]
+transform = Transform3D(1, 0, 0, 0, -4.37114e-08, -1, 0, 1, -4.37114e-08, 0, 0, 0)
+visible = false
+target_position = Vector3(0, -2, 0)
+collision_mask = 3
+
+[node name="DropPoint" type="Node3D" parent="Pivot/PlayerCamera/Pointer"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -1.4, 0)
+
+[node name="PlayerSprite" type="Sprite3D" parent="."]
+cast_shadow = 3
+shaded = true
+alpha_cut = 2
+alpha_antialiasing_mode = 1
+texture_filter = 2
+texture = ExtResource("3_qy4t4")
+
+[node name="test_interaction" parent="." instance=ExtResource("4_ytkwm")]
+transform = Transform3D(0.15, 0, 0, 0, 0.15, 0, 0, 0, 0.15, 0, 0, -2)
+visible = false
+layers = 512
+billboard = 1
+no_depth_test = true
+fixed_size = true
+render_priority = 10
+texture = SubResource("ViewportTexture_tbewj")

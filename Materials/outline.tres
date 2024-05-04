@@ -1,0 +1,18 @@
+[gd_resource type="ShaderMaterial" load_steps=2 format=3 uid="uid://1o7ker747l6"]
+
+[ext_resource type="Shader" path="res://Shaders/outline.gdshader" id="1_cw5a7"]
+
+[resource]
+render_priority = 0
+shader = ExtResource("1_cw5a7")
+shader_parameter/blink = false
+shader_parameter/albedo = Color(1, 1, 1, 1)
+shader_parameter/point_size = null
+shader_parameter/roughness = null
+shader_parameter/metallic_texture_channel = null
+shader_parameter/specular = null
+shader_parameter/metallic = null
+shader_parameter/uv1_scale = null
+shader_parameter/uv1_offset = null
+shader_parameter/uv2_scale = null
+shader_parameter/uv2_offset = null

@@ -1,0 +1,12 @@
+[gd_resource type="StandardMaterial3D" load_steps=3 format=3 uid="uid://dwj44uvpjbygl"]
+
+[ext_resource type="Texture2D" uid="uid://bnj1i1fugnpd5" path="res://Graphics/Textures/WallPaper.png" id="1_bir4s"]
+[ext_resource type="Texture2D" uid="uid://cc2b78wf7c6fc" path="res://Graphics/Textures/FloorTileNormal.png" id="2_4ntlm"]
+
+[resource]
+albedo_color = Color(0.671048, 0.780256, 1, 1)
+albedo_texture = ExtResource("1_bir4s")
+normal_enabled = true
+normal_texture = ExtResource("2_4ntlm")
+uv1_triplanar = true
+texture_filter = 2

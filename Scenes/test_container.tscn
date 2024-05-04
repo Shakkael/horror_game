@@ -1,0 +1,21 @@
+[gd_scene load_steps=7 format=3 uid="uid://bddfa7o6vyi36"]
+
+[ext_resource type="Material" uid="uid://c1a16bq5pn8ea" path="res://Materials/box_1_0.tres" id="1_7ae2g"]
+[ext_resource type="Script" path="res://Classes/container.gd" id="1_gjuh4"]
+[ext_resource type="Script" path="res://Classes/inventory.gd" id="2_4i8fw"]
+[ext_resource type="BoxMesh" uid="uid://ch8s1bvgl4xw0" path="res://Models/test_container.tres" id="2_t2ync"]
+
+[sub_resource type="Resource" id="Resource_l6i1l"]
+script = ExtResource("2_4i8fw")
+slots = Array[Resource("res://Classes/item.gd")]([])
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_tsjnb"]
+
+[node name="ContainerInt" type="RigidBody3D"]
+script = ExtResource("1_gjuh4")
+inventory = SubResource("Resource_l6i1l")
+model_mesh = ExtResource("2_t2ync")
+model_material = ExtResource("1_7ae2g")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="."]
+shape = SubResource("BoxShape3D_tsjnb")

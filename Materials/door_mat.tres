@@ -1,0 +1,9 @@
+[gd_resource type="StandardMaterial3D" load_steps=2 format=3 uid="uid://b5q673ba2gyow"]
+
+[ext_resource type="Texture2D" uid="uid://dcaw4fcrtwd7u" path="res://Graphics/Textures/Door.png" id="1_ojqdl"]
+
+[resource]
+resource_name = "Material.002"
+albedo_texture = ExtResource("1_ojqdl")
+metallic = 0.5
+texture_filter = 2

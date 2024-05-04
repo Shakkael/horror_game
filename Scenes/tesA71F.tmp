@@ -1,0 +1,27 @@
+[gd_scene load_steps=4 format=3 uid="uid://8fxs5cp3vxgv"]
+
+[ext_resource type="Shader" path="res://Shaders/pixelization.gdshader" id="1_u638t"]
+[ext_resource type="PackedScene" uid="uid://ckqfgpnveaids" path="res://Scenes/test_env.tscn" id="2_a8lcr"]
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_8a1s7"]
+shader = ExtResource("1_u638t")
+shader_parameter/amount = 900
+
+[node name="test_viewport" type="SubViewportContainer"]
+texture_filter = 3
+material = SubResource("ShaderMaterial_8a1s7")
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+size_flags_horizontal = 6
+size_flags_vertical = 6
+stretch = true
+
+[node name="SubViewport" type="SubViewport" parent="."]
+handle_input_locally = false
+size = Vector2i(1280, 720)
+render_target_update_mode = 4
+
+[node name="test_env" parent="SubViewport" instance=ExtResource("2_a8lcr")]

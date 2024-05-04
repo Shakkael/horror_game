@@ -1,0 +1,53 @@
+[gd_scene load_steps=4 format=3 uid="uid://g5jp47wx0eua"]
+
+[ext_resource type="Texture2D" uid="uid://cympcj5wi4ldq" path="res://Graphics/Sprites/HUD/LMB.png" id="1_c7fij"]
+[ext_resource type="Texture2D" uid="uid://c1av86yu0lulx" path="res://Graphics/Sprites/HUD/RMB.png" id="2_m5hjp"]
+
+[sub_resource type="ViewportTexture" id="ViewportTexture_i4xy4"]
+viewport_path = NodePath("SubViewport")
+
+[node name="test_interaction" type="Sprite3D"]
+texture_filter = 2
+texture = SubResource("ViewportTexture_i4xy4")
+
+[node name="SubViewport" type="SubViewport" parent="."]
+transparent_bg = true
+size = Vector2i(230, 184)
+
+[node name="CanvasLayer" type="CanvasLayer" parent="SubViewport"]
+
+[node name="ColorRect" type="ColorRect" parent="SubViewport/CanvasLayer"]
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+color = Color(0.219501, 0.219501, 0.219501, 1)
+
+[node name="LMB" type="Sprite2D" parent="SubViewport/CanvasLayer"]
+texture_filter = 3
+position = Vector2(5, 5)
+texture = ExtResource("1_c7fij")
+centered = false
+
+[node name="RMB" type="Sprite2D" parent="SubViewport/CanvasLayer"]
+texture_filter = 3
+position = Vector2(5, 115)
+texture = ExtResource("2_m5hjp")
+centered = false
+
+[node name="LMB_Action" type="RichTextLabel" parent="SubViewport/CanvasLayer"]
+texture_filter = 3
+offset_left = 115.0
+offset_top = 26.0
+offset_right = 213.0
+offset_bottom = 52.0
+text = "LMB Action"
+
+[node name="RMB_Action" type="RichTextLabel" parent="SubViewport/CanvasLayer"]
+texture_filter = 3
+offset_left = 119.0
+offset_top = 134.0
+offset_right = 217.0
+offset_bottom = 160.0
+text = "RMB Action"

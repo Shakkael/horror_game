@@ -1,0 +1,9 @@
+[gd_resource type="ShaderMaterial" load_steps=2 format=3 uid="uid://5tjpr2y704q3"]
+
+[ext_resource type="Shader" path="res://Shaders/interactive.gdshader" id="1_xeo3p"]
+
+[resource]
+resource_local_to_scene = true
+render_priority = 0
+shader = ExtResource("1_xeo3p")
+shader_parameter/blink = true

@@ -1,0 +1,17 @@
+[gd_resource type="StandardMaterial3D" load_steps=3 format=3 uid="uid://bsfrmf8kisrh1"]
+
+[ext_resource type="Texture2D" uid="uid://drl84ufqsib5g" path="res://Graphics/Textures/FloorTile.png" id="1_ws2g5"]
+[ext_resource type="Texture2D" uid="uid://cc2b78wf7c6fc" path="res://Graphics/Textures/FloorTileNormal.png" id="2_g6vin"]
+
+[resource]
+albedo_texture = ExtResource("1_ws2g5")
+metallic = 0.7
+roughness = 0.3
+normal_enabled = true
+normal_texture = ExtResource("2_g6vin")
+refraction_enabled = true
+refraction_texture = ExtResource("2_g6vin")
+refraction_texture_channel = 1
+detail_normal = ExtResource("2_g6vin")
+uv1_triplanar = true
+texture_filter = 2

@@ -1,0 +1,57 @@
+[gd_scene load_steps=2 format=3 uid="uid://owdtmj4u7ps1"]
+
+[ext_resource type="Texture2D" uid="uid://c2qacpol4wb33" path="res://Graphics/Textures/Inventory.png" id="1_y7rt2"]
+
+[node name="Inventory" type="Control"]
+layout_mode = 3
+anchors_preset = 0
+offset_right = 299.0
+offset_bottom = 418.0
+
+[node name="InvRect" type="NinePatchRect" parent="."]
+texture_filter = 1
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+texture = ExtResource("1_y7rt2")
+patch_margin_left = 12
+patch_margin_top = 12
+patch_margin_right = 12
+patch_margin_bottom = 12
+
+[node name="Title" type="Panel" parent="InvRect"]
+custom_minimum_size = Vector2(260, 32)
+layout_mode = 2
+offset_left = 20.0
+offset_top = 16.0
+offset_right = 280.0
+offset_bottom = 48.0
+
+[node name="TitleName" type="RichTextLabel" parent="InvRect/Title"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = 32.0
+offset_top = 4.0
+offset_right = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+text = "Inventory Name"
+
+[node name="InvGrid" type="GridContainer" parent="InvRect"]
+custom_minimum_size = Vector2(32, 32)
+layout_mode = 1
+anchors_preset = 13
+anchor_left = 0.5
+anchor_right = 0.5
+anchor_bottom = 1.0
+offset_left = -129.5
+offset_top = 53.0
+offset_right = 130.5
+offset_bottom = -15.0
+grow_horizontal = 2
+grow_vertical = 2

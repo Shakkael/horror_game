@@ -1,0 +1,37 @@
+[gd_scene load_steps=6 format=3 uid="uid://ckqfgpnveaids"]
+
+[ext_resource type="PackedScene" uid="uid://cc5tqc12c6hxq" path="res://Scenes/test_map.tscn" id="1_hyhmg"]
+[ext_resource type="PackedScene" uid="uid://dx42ep1hy05bl" path="res://Scenes/test_character.tscn" id="2_eac8q"]
+
+[sub_resource type="ProceduralSkyMaterial" id="ProceduralSkyMaterial_ibk6h"]
+
+[sub_resource type="Sky" id="Sky_i7xr3"]
+sky_material = SubResource("ProceduralSkyMaterial_ibk6h")
+
+[sub_resource type="Environment" id="Environment_m5qu2"]
+background_mode = 2
+background_energy_multiplier = 2.0
+sky = SubResource("Sky_i7xr3")
+fog_light_color = Color(0.647059, 0.603922, 0.623529, 1)
+fog_sun_scatter = 0.4
+fog_density = 0.4
+fog_aerial_perspective = 0.2
+volumetric_fog_enabled = true
+volumetric_fog_density = 0.6
+volumetric_fog_albedo = Color(0.2349, 0.2466, 0.27, 1)
+volumetric_fog_anisotropy = 0.1
+volumetric_fog_ambient_inject = 5.0
+adjustment_saturation = 0.3
+
+[node name="test_env" type="WorldEnvironment"]
+environment = SubResource("Environment_m5qu2")
+
+[node name="TestMap" parent="." instance=ExtResource("1_hyhmg")]
+
+[node name="DirectionalLight3D" type="DirectionalLight3D" parent="."]
+transform = Transform3D(0.959494, 0.0214606, 0.280911, -0.168008, 0.843982, 0.50938, -0.226152, -0.535942, 0.813401, 0, 2, 0)
+light_energy = 0.4
+shadow_enabled = true
+
+[node name="CharacterBody3D" parent="." instance=ExtResource("2_eac8q")]
+transform = Transform3D(0.723654, 0, 0.690162, 0, 1, 0, -0.690162, 0, 0.723654, 2.9, 1, 1.1)

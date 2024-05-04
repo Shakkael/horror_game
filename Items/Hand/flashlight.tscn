@@ -1,0 +1,27 @@
+[gd_scene load_steps=5 format=3 uid="uid://cqej4cvhertxb"]
+
+[ext_resource type="Script" path="res://Items/Hand/flashlight.gd" id="1_nuoms"]
+[ext_resource type="CylinderMesh" uid="uid://bbanvjj8oj83g" path="res://Models/flashlight_handle.tres" id="2_ylxpe"]
+[ext_resource type="Material" uid="uid://dwj44uvpjbygl" path="res://Materials/lamp.tres" id="3_ga7mw"]
+[ext_resource type="PrismMesh" uid="uid://dkbv7pga1gbpj" path="res://Models/flashlight.tres" id="4_q51k3"]
+
+[node name="Flashlight" type="RigidBody3D"]
+transform = Transform3D(1, 0, 0, 0, -4.37114e-08, -1, 0, 1, -4.37114e-08, 0, 0, 0)
+collision_layer = 2
+collision_mask = 2
+script = ExtResource("1_nuoms")
+model_mesh = ExtResource("2_ylxpe")
+model_material = ExtResource("3_ga7mw")
+
+[node name="Lamp" type="MeshInstance3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.2, 0)
+mesh = ExtResource("4_q51k3")
+skeleton = NodePath(".")
+
+[node name="SpotLight3D" type="SpotLight3D" parent="Lamp"]
+transform = Transform3D(1, 0, 5.02914e-08, 2.32831e-09, -2.98023e-08, 1, 0, -1, 3.57628e-07, -9.31323e-09, -0.2, -2.98023e-08)
+light_energy = 9.0
+light_indirect_energy = 5.0
+light_volumetric_fog_energy = 6.0
+light_specular = 3.0
+shadow_enabled = true

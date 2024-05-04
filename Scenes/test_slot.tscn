@@ -1,0 +1,101 @@
+[gd_scene load_steps=6 format=3 uid="uid://cvobbe5bagcso"]
+
+[ext_resource type="Texture2D" uid="uid://bfnb1v41tngv3" path="res://Graphics/Sprites/HUD/Placeholder.png" id="1_rliq4"]
+[ext_resource type="Texture2D" uid="uid://ce6f0ltjc7udh" path="res://Graphics/Sprites/HUD/TakeIcon.png" id="2_5jfbp"]
+[ext_resource type="Texture2D" uid="uid://hg30gj1jji2r" path="res://Graphics/Sprites/HUD/EyeIcon.png" id="3_6mhs5"]
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_7xasm"]
+
+[sub_resource type="FontVariation" id="FontVariation_f56we"]
+spacing_top = 3
+
+[node name="Panel" type="Panel"]
+custom_minimum_size = Vector2(260, 32)
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_right = -1020.0
+offset_bottom = -688.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_styles/panel = SubResource("StyleBoxEmpty_7xasm")
+
+[node name="ColorRect" type="ColorRect" parent="."]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+color = Color(0.384314, 0.247059, 0, 1)
+
+[node name="Name" type="RichTextLabel" parent="."]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = 36.0
+offset_right = -67.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_colors/default_color = Color(1, 1, 1, 1)
+theme_override_fonts/normal_font = SubResource("FontVariation_f56we")
+text = "Placeholder text"
+
+[node name="Image" type="Sprite2D" parent="."]
+texture_filter = 3
+position = Vector2(4, 3)
+scale = Vector2(0.4, 0.4)
+texture = ExtResource("1_rliq4")
+centered = false
+
+[node name="Move" type="TextureButton" parent="."]
+visible = false
+layout_mode = 1
+anchors_preset = 6
+anchor_left = 1.0
+anchor_top = 0.5
+anchor_right = 1.0
+anchor_bottom = 0.5
+offset_left = -30.0
+offset_top = -13.0
+offset_right = 34.0
+offset_bottom = 51.0
+grow_horizontal = 0
+grow_vertical = 2
+scale = Vector2(0.4, 0.4)
+texture_normal = ExtResource("2_5jfbp")
+
+[node name="Take" type="TextureButton" parent="."]
+visible = false
+layout_mode = 1
+anchors_preset = 6
+anchor_left = 1.0
+anchor_top = 0.5
+anchor_right = 1.0
+anchor_bottom = 0.5
+offset_left = -30.0
+offset_top = -13.0
+offset_right = 34.0
+offset_bottom = 51.0
+grow_horizontal = 0
+grow_vertical = 2
+scale = Vector2(0.4, 0.4)
+texture_normal = ExtResource("2_5jfbp")
+
+[node name="Use" type="TextureButton" parent="."]
+visible = false
+layout_mode = 1
+anchors_preset = 6
+anchor_left = 1.0
+anchor_top = 0.5
+anchor_right = 1.0
+anchor_bottom = 0.5
+offset_left = -60.0
+offset_top = -13.0
+offset_right = 4.0
+offset_bottom = 51.0
+grow_horizontal = 0
+grow_vertical = 2
+scale = Vector2(0.4, 0.4)
+texture_normal = ExtResource("3_6mhs5")

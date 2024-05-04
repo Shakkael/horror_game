@@ -1,0 +1,13 @@
+[gd_resource type="StandardMaterial3D" load_steps=3 format=3 uid="uid://dd7u3q51vlyrj"]
+
+[ext_resource type="Texture2D" uid="uid://bnj1i1fugnpd5" path="res://Graphics/Textures/WallPaper.png" id="1_swqni"]
+[ext_resource type="Texture2D" uid="uid://cva6iuedl7b53" path="res://Graphics/Textures/WallPaperNormal.png" id="2_xehbt"]
+
+[resource]
+albedo_texture = ExtResource("1_swqni")
+normal_enabled = true
+normal_scale = 0.2
+normal_texture = ExtResource("2_xehbt")
+uv1_triplanar = true
+uv1_world_triplanar = true
+texture_filter = 2

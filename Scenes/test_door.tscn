@@ -1,0 +1,19 @@
+[gd_scene load_steps=5 format=3 uid="uid://d2svtyjojtp37"]
+
+[ext_resource type="Script" path="res://Classes/door.gd" id="1_g54o6"]
+[ext_resource type="ArrayMesh" uid="uid://bhox66a0sq7m3" path="res://Models/doorModel.obj" id="2_tgwqv"]
+[ext_resource type="Material" uid="uid://dq4uesnaa4bt0" path="res://Materials/box_0_5.tres" id="3_8cbpq"]
+
+[sub_resource type="PhysicsMaterial" id="PhysicsMaterial_4ek1s"]
+
+[node name="test_door" type="RigidBody3D"]
+transform = Transform3D(1, 0, -1.74846e-07, 0, 1, 0, 1.74846e-07, 0, 1, 0, 0, 0)
+collision_layer = 3
+collision_mask = 3
+collision_priority = 10.0
+mass = 10.0
+physics_material_override = SubResource("PhysicsMaterial_4ek1s")
+freeze = true
+script = ExtResource("1_g54o6")
+model_mesh = ExtResource("2_tgwqv")
+model_material = ExtResource("3_8cbpq")
