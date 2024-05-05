@@ -12,6 +12,7 @@ var moving := true
 var default_fov := 75.0
 
 @export var Equipment : Inventory
+@export var Steps := preload("res://SFX/PlayerSteps.tres")
 
 @onready var RayCast : RayCast3D = $Pivot/PlayerCamera/Pointer
 @onready var Target : Sprite3D = $test_interaction
@@ -24,6 +25,8 @@ var default_fov := 75.0
 @onready var NormalCam := $InventoryViewport/InventoryViewport/CanvasLayer/NormalCam
 @onready var PlayCam := $InventoryViewport/PlayerViewport/Camera3D
 @onready var ItemCam := $InventoryViewport/ItemViewport/ItemCam
+@onready var UsePlayer := $UsePlayer
+@onready var StepsPlayer := $StepsPlayer
 
 var looking_at
 var current_item : Item = null
@@ -31,12 +34,12 @@ var current_item : Item = null
 func _ready():
 	Input.set_mouse_mode(Input.MOUSE_MODE_CAPTURED)
 
-func _physics_process(delta):
+func _process(delta):
 	PlayCam.global_transform = PlayerCam.global_transform
-	NormalCam.global_position = lerp(NormalCam.global_position,PlayerCam.global_position,30*delta)
-	NormalCam.global_rotation = lerp(NormalCam.global_rotation,PlayerCam.global_rotation,50*delta)
-	ItemCam.global_position = lerp(ItemCam.global_position,PlayerCam.global_position,30*delta)
-	ItemCam.global_rotation = lerp(ItemCam.global_rotation,PlayerCam.global_rotation,50*delta)
+	NormalCam.global_transform = PlayerCam.global_transform
+	ItemCam.global_transform = PlayerCam.global_transform
+
+func _physics_process(delta):
 	interaction()
 	escape()
 	movement(delta)
@@ -102,22 +105,28 @@ func update_inv(inventory : Control, slotage : Inventory, title='Inventory', sen
 
 func interaction():
 	if Input.get_mouse_mode() == Input.MOUSE_MODE_CAPTURED and Input.is_action_just_pressed("interaction"):
+		var sound_play = null
 		if looking_at != null and looking_at is Interactive and looking_at.usable:
-			if looking_at is ContainerInt:
+			if looking_at is ButtonInt or looking_at is Door:
+				sound_play = looking_at.use()
+				
+			elif looking_at is ContainerInt:
 				var container_data = looking_at.get_inv()
 				update_inv(ContainerInv, container_data[0], container_data[1], Equipment)
 				ContainerInv.visible = true
 				open_inv(container_data[0])
-			elif looking_at is Door:
-				looking_at.use()
-			elif looking_at is Pickable:
+				sound_play = looking_at.use()
+				#add close inventory sound
+				
+			elif looking_at is Pickable and looking_at.pickable:
 				var item = looking_at.pickup()
 				Equipment.slots.append(item)
-			elif looking_at is ButtonInt:
-				looking_at.use()
+				#sound_play = pickup_sfx
 		else:
 			if Hand.get_child_count() > 0:
-				Hand.get_child(0).use()
+				sound_play = Hand.get_child(0).use()
+		if sound_play != null:
+			play_use(sound_play)
 
 func escape():
 	if Input.is_action_just_pressed("ui_cancel") and Input.get_mouse_mode() == Input.MOUSE_MODE_CAPTURED and not get_tree().paused:
@@ -151,6 +160,10 @@ func movement(delta):
 	if direction and moving:
 		velocity.x = direction.x * SPEED * delta * speed_multiplier
 		velocity.z = direction.z * SPEED * delta * speed_multiplier
+		if is_on_floor():
+			if !StepsPlayer.playing:
+				StepsPlayer.stream = Steps.walk_ground.pick_random()
+				StepsPlayer.play()
 	elif !is_on_floor():
 		velocity.x = move_toward(velocity.x, 0, delta)
 		velocity.z = move_toward(velocity.z, 0, delta)
@@ -161,6 +174,9 @@ func movement(delta):
 func raycast():
 	var collider = RayCast.get_collider()
 	if collider != null and collider.has_method("looked_at"):
+		var outline_bool = collider.get("pickable")
+		if outline_bool == false:
+			return
 		Target.visible = true
 		Target.global_position = RayCast.get_collision_point() + Vector3(0,0.2,0)
 		collider.looked_at()
@@ -224,3 +240,6 @@ func drop():
 		Hand.remove_child(Hand.get_child(0))
 		current_item = null
 
+func play_use(sound : AudioStream):
+	UsePlayer.stream = sound
+	UsePlayer.play()

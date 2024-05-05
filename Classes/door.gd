@@ -1,4 +1,4 @@
-extends Interactive
+extends Destructible
 class_name Door
 
 @export_enum("Regular", "Slide", "Rotate") var opening := 0
@@ -40,6 +40,7 @@ func use():
 		close()
 	else:
 		open()
+	return super()
 
 func open():
 	if opening == 0:

@@ -1,0 +1,11 @@
+[gd_resource type="Resource" script_class="SoundsTest" load_steps=6 format=3 uid="uid://byfsuxeitfg0s"]
+
+[ext_resource type="Script" path="res://SFX/sounds.gd" id="1_neh40"]
+[ext_resource type="AudioStream" uid="uid://dsoy74bodf71r" path="res://SFX/Uses/Steps/step (2).wav" id="2_5dvhk"]
+[ext_resource type="AudioStream" uid="uid://btowc3c7ph41l" path="res://SFX/Uses/Steps/step (3).wav" id="3_hyp2l"]
+[ext_resource type="AudioStream" uid="uid://bh2eiv43vb8pm" path="res://SFX/Uses/Steps/step (4).wav" id="4_i0l4n"]
+[ext_resource type="AudioStream" uid="uid://cegy0seehb3vn" path="res://SFX/Uses/Steps/step (5).wav" id="5_2yol6"]
+
+[resource]
+script = ExtResource("1_neh40")
+walk_ground = Array[AudioStream]([ExtResource("2_5dvhk"), ExtResource("3_hyp2l"), ExtResource("4_i0l4n"), ExtResource("5_2yol6")])

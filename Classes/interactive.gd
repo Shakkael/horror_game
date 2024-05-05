@@ -7,6 +7,11 @@ class_name Interactive
 @export var interactive : Material = preload("res://Materials/interactive.tres")
 @export var model_material : Material
 @export var target : Texture = preload("res://Graphics/Sprites/HUD/Placeholder.png")
+@export_group("Interaction")
+@export var hit_particles : CPUParticles3D
+@export var use_sounds : Array[AudioStream] = [preload("res://SFX/Uses/sfxUnusable.wav")]
+#@export var walk_sound String?
+#@export var hit_sound : Audio
 
 var InstanceMesh = MeshInstance3D.new()
 var OutlineMesh = MeshInstance3D.new()
@@ -40,3 +45,7 @@ func looked_at():
 func not_looked_at():
 	InstanceMesh.material_override.set("shader_parameter/blink",false)
 	OutlineMesh.get_surface_override_material(0).set("shader_parameter/blink",false)
+
+func use():
+	randomize()
+	return use_sounds.pick_random()

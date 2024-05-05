@@ -1,4 +1,4 @@
-extends Interactive
+extends Destructible
 class_name ContainerInt
 
 @export_group("Iventory")
