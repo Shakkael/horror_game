@@ -5,6 +5,5 @@ class_name  ButtonInt
 
 func use():
 	var target_node : Interactive = get_node(target_path)
-	print(target_node)
 	target_node.use()
 	return super()

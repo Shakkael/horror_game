@@ -1,14 +1,15 @@
-[gd_scene load_steps=8 format=3 uid="uid://cqej4cvhertxb"]
+[gd_scene load_steps=9 format=3 uid="uid://cqej4cvhertxb"]
 
 [ext_resource type="Script" path="res://Items/Hand/flashlight.gd" id="1_nuoms"]
 [ext_resource type="CylinderMesh" uid="uid://bbanvjj8oj83g" path="res://Models/flashlight_handle.tres" id="2_ylxpe"]
+[ext_resource type="Material" uid="uid://dwj44uvpjbygl" path="res://Materials/lamp.tres" id="3_ga7mw"]
 [ext_resource type="PrismMesh" uid="uid://dkbv7pga1gbpj" path="res://Models/flashlight.tres" id="4_q51k3"]
 [ext_resource type="AudioStream" uid="uid://c5kqou10aohcq" path="res://SFX/Uses/Flashlight/flashlightSwitch.wav" id="4_qnn0p"]
 [ext_resource type="AudioStream" uid="uid://deh215xesumx4" path="res://SFX/Uses/Flashlight/buzz.wav" id="4_v1op7"]
 [ext_resource type="AudioStream" uid="uid://clg3tr48fqup8" path="res://SFX/Uses/Flashlight/flashlightSwitch2.wav" id="5_by48x"]
 
 [sub_resource type="PhysicsMaterial" id="PhysicsMaterial_olcvg"]
-bounce = 0.1
+bounce = 0.2
 
 [node name="Flashlight" type="RigidBody3D"]
 transform = Transform3D(1, 0, 0, 0, -4.37114e-08, -1, 0, 1, -4.37114e-08, 0, 0, 0)
@@ -17,6 +18,7 @@ collision_mask = 2
 physics_material_override = SubResource("PhysicsMaterial_olcvg")
 script = ExtResource("1_nuoms")
 model_mesh = ExtResource("2_ylxpe")
+model_material = ExtResource("3_ga7mw")
 action_sounds = Array[AudioStream]([ExtResource("4_v1op7")])
 start_playing = 1
 if_stopped_using = 1

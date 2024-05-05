@@ -8,6 +8,7 @@ var speed_multiplier := 10.0
 # Get the gravity from the project settings to be synced with RigidBody nodes.
 var gravity = ProjectSettings.get_setting("physics/3d/default_gravity")*1.3
 var moving := true
+var running := false
 
 var default_fov := 75.0
 
@@ -34,7 +35,7 @@ var current_item : Item = null
 func _ready():
 	Input.set_mouse_mode(Input.MOUSE_MODE_CAPTURED)
 
-func _process(delta):
+func _process(_delta):
 	PlayCam.global_transform = PlayerCam.global_transform
 	NormalCam.global_transform = PlayerCam.global_transform
 	ItemCam.global_transform = PlayerCam.global_transform
@@ -122,8 +123,9 @@ func interaction():
 				var item = looking_at.pickup()
 				Equipment.slots.append(item)
 				#sound_play = pickup_sfx
-		else:
-			if Hand.get_child_count() > 0:
+		elif looking_at != null and looking_at is Interactive:
+			sound_play = preload("res://SFX/Uses/sfxUnusable.wav")
+		elif Hand.get_child_count() > 0:
 				sound_play = Hand.get_child(0).use()
 		if sound_play != null:
 			play_use(sound_play)
@@ -150,7 +152,9 @@ func movement(delta):
 	if Input.is_action_pressed("run"):
 		speed_multiplier = 10.0
 		PlayCam.fov = lerp(PlayCam.fov,default_fov+30,5*delta)
+		running = true
 	else:
+		running = false
 		speed_multiplier = 5.0
 		PlayCam.fov = lerp(PlayCam.fov,default_fov,5*delta)
 
@@ -160,16 +164,22 @@ func movement(delta):
 	if direction and moving:
 		velocity.x = direction.x * SPEED * delta * speed_multiplier
 		velocity.z = direction.z * SPEED * delta * speed_multiplier
+		$MoveAnim.play("Moving")
 		if is_on_floor():
 			if !StepsPlayer.playing:
-				StepsPlayer.stream = Steps.walk_ground.pick_random()
+				if running:
+					StepsPlayer.stream = Steps.run_ground.pick_random()
+				else:
+					StepsPlayer.stream = Steps.walk_ground.pick_random()
 				StepsPlayer.play()
-	elif !is_on_floor():
-		velocity.x = move_toward(velocity.x, 0, delta)
-		velocity.z = move_toward(velocity.z, 0, delta)
 	else:
-		velocity.x = move_toward(velocity.x, 0, SPEED*delta)
-		velocity.z = move_toward(velocity.z, 0, SPEED*delta)
+		if !is_on_floor():
+			velocity.x = move_toward(velocity.x, 0, delta)
+			velocity.z = move_toward(velocity.z, 0, delta)
+		else:
+			velocity.x = move_toward(velocity.x, 0, SPEED*delta)
+			velocity.z = move_toward(velocity.z, 0, SPEED*delta)
+		$MoveAnim.stop()
 
 func raycast():
 	var collider = RayCast.get_collider()
@@ -209,9 +219,6 @@ func take(slotage : Inventory, item : Item, sending : Inventory):
 		update_inv(PlayerInv, sending, false, slotage)
 		update_inv(ContainerInv, slotage, false, sending)
 
-func heal(amount):
-	print(amount)
-
 func set_cur_item(item : Item):
 	current_item = item
 	update_inv(PlayerInv, Equipment)
@@ -232,6 +239,7 @@ func drop():
 		get_parent().get_child(0).add_child(item_obj)
 		var drop_pos = DropPoint.global_position
 		item_obj.linear_velocity = global_position.direction_to(DropPoint.global_position).normalized()*6
+		item_obj.angular_velocity = Vector3(randi_range(-10,10),randi_range(-10,10),randi_range(-10,10))
 		if drop_pos == null:
 			drop_pos = global_position
 		item_obj.global_position = drop_pos

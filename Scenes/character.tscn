@@ -1,4 +1,4 @@
-[gd_scene load_steps=14 format=3 uid="uid://dx42ep1hy05bl"]
+[gd_scene load_steps=18 format=3 uid="uid://dx42ep1hy05bl"]
 
 [ext_resource type="Script" path="res://Scenes/test_character.gd" id="1_lv1jx"]
 [ext_resource type="Script" path="res://Classes/inventory.gd" id="2_wikqp"]
@@ -6,6 +6,7 @@
 [ext_resource type="PackedScene" uid="uid://owdtmj4u7ps1" path="res://Scenes/inventory.tscn" id="4_71kx0"]
 [ext_resource type="Texture2D" uid="uid://d1xveej3p25o5" path="res://icon.svg" id="5_5tstd"]
 [ext_resource type="PackedScene" uid="uid://g5jp47wx0eua" path="res://Scenes/test_interaction.tscn" id="6_8tg18"]
+[ext_resource type="AudioStream" uid="uid://deh215xesumx4" path="res://SFX/Uses/Flashlight/buzz.wav" id="7_de7gm"]
 
 [sub_resource type="Resource" id="Resource_2x2e1"]
 script = ExtResource("2_wikqp")
@@ -34,6 +35,44 @@ shader_parameter/SCREEN_TEXTURE = SubResource("ViewportTexture_a7ekp")
 
 [sub_resource type="ViewportTexture" id="ViewportTexture_tbewj"]
 viewport_path = NodePath("SubViewport")
+
+[sub_resource type="Animation" id="Animation_ieq0k"]
+resource_name = "Moving"
+length = 0.8
+loop_mode = 1
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Pivot/PlayerCamera:position")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.2, 0.4, 0.6, 0.8),
+"transitions": PackedFloat32Array(1, 1, 1, 1, 1),
+"update": 0,
+"values": [Vector3(0, 0, 0), Vector3(-0.1, -0.2, 0), Vector3(0, 0, 0), Vector3(0.1, -0.2, 0), Vector3(0, 0, 0)]
+}
+
+[sub_resource type="Animation" id="Animation_wrrg0"]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Pivot/PlayerCamera:position")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Vector3(0, 0, 0)]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_eb2d0"]
+_data = {
+"Moving": SubResource("Animation_ieq0k"),
+"RESET": SubResource("Animation_wrrg0")
+}
 
 [node name="PlayerCharacter" type="CharacterBody3D"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, 0)
@@ -166,7 +205,7 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.5, 0)
 [node name="PlayerCamera" type="Node3D" parent="Pivot"]
 
 [node name="Hand" type="Node3D" parent="Pivot/PlayerCamera"]
-transform = Transform3D(-1, 0, 0, 0, 1, 0, 0, 0, 1, 0.25, -0.2, -0.5)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.25, -0.2, -0.5)
 
 [node name="Pointer" type="RayCast3D" parent="Pivot/PlayerCamera"]
 transform = Transform3D(1, 0, 0, 0, -4.37114e-08, -1, 0, 1, -4.37114e-08, 0, 0, 0)
@@ -199,3 +238,10 @@ texture = SubResource("ViewportTexture_tbewj")
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -1, 0)
 
 [node name="UsePlayer" type="AudioStreamPlayer" parent="."]
+stream = ExtResource("7_de7gm")
+
+[node name="MoveAnim" type="AnimationPlayer" parent="."]
+libraries = {
+"": SubResource("AnimationLibrary_eb2d0")
+}
+speed_scale = 0.5

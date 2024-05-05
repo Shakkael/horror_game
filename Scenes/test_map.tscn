@@ -1,4 +1,4 @@
-[gd_scene load_steps=29 format=3 uid="uid://cc5tqc12c6hxq"]
+[gd_scene load_steps=24 format=3 uid="uid://cc5tqc12c6hxq"]
 
 [ext_resource type="Script" path="res://Scenes/test_map.gd" id="1_2vqju"]
 [ext_resource type="Material" uid="uid://bsfrmf8kisrh1" path="res://Materials/floor_mat.tres" id="2_1snmf"]
@@ -7,14 +7,11 @@
 [ext_resource type="Texture2D" uid="uid://p6sbcml5ym1u" path="res://Graphics/Textures/CeilingNormal.png" id="4_0jj5q"]
 [ext_resource type="Material" uid="uid://dq4uesnaa4bt0" path="res://Materials/box_0_5.tres" id="5_jr88c"]
 [ext_resource type="Material" uid="uid://dwj44uvpjbygl" path="res://Materials/lamp.tres" id="7_0rgqr"]
-[ext_resource type="PackedScene" uid="uid://cqej4cvhertxb" path="res://Items/Hand/flashlight.tscn" id="7_wpns3"]
-[ext_resource type="Script" path="res://Classes/buttonInt.gd" id="8_sxhdu"]
-[ext_resource type="PackedScene" uid="uid://d2svtyjojtp37" path="res://Scenes/test_door.tscn" id="8_vn5tb"]
-[ext_resource type="Script" path="res://Classes/container.gd" id="9_vu7u2"]
-[ext_resource type="BoxMesh" uid="uid://ch8s1bvgl4xw0" path="res://Models/test_container.tres" id="10_nd8tq"]
-[ext_resource type="Material" uid="uid://c1a16bq5pn8ea" path="res://Materials/box_1_0.tres" id="11_64c8n"]
+[ext_resource type="Script" path="res://Classes/door.gd" id="8_3tg25"]
+[ext_resource type="AudioStream" uid="uid://cbukuyybp2q7m" path="res://SFX/Uses/Doors/heavyDoor.wav" id="10_motec"]
 [ext_resource type="ArrayMesh" uid="uid://bw1pjsywl1ni1" path="res://Models/door2.tres" id="12_fid3s"]
-[ext_resource type="Material" uid="uid://b5q673ba2gyow" path="res://Materials/door_mat.tres" id="13_e27lo"]
+[ext_resource type="Script" path="res://Classes/destructible.gd" id="17_fg72y"]
+[ext_resource type="ArrayMesh" uid="uid://bcls1kj36w88m" path="res://Models/tree.tres" id="18_hilxa"]
 
 [sub_resource type="BoxMesh" id="BoxMesh_lv37r"]
 material = ExtResource("2_1snmf")
@@ -37,7 +34,7 @@ size = Vector3(0.5, 0.5, 0.5)
 
 [sub_resource type="BoxMesh" id="BoxMesh_kcm7h"]
 material = ExtResource("3_qxaak")
-size = Vector3(1.3, 0.6, 1)
+size = Vector3(1.35, 0.6, 1)
 
 [sub_resource type="BoxMesh" id="BoxMesh_fjolw"]
 material = ExtResource("3_qxaak")
@@ -49,7 +46,7 @@ size = Vector3(14, 3, 1)
 
 [sub_resource type="BoxMesh" id="BoxMesh_csk8p"]
 material = ExtResource("3_qxaak")
-size = Vector3(2.7, 3, 1)
+size = Vector3(2.65, 3, 1)
 
 [sub_resource type="BoxMesh" id="BoxMesh_g3dco"]
 material = ExtResource("3_qxaak")
@@ -63,13 +60,6 @@ size = Vector3(8, 0.2, 8)
 material = ExtResource("7_0rgqr")
 size = Vector3(0.2, 0.3, 0.2)
 
-[sub_resource type="BoxMesh" id="BoxMesh_rae1v"]
-size = Vector3(0.4, 0.5, 0.1)
-
-[sub_resource type="PhysicsMaterial" id="PhysicsMaterial_cps8a"]
-rough = true
-absorbent = true
-
 [node name="TestMap" type="Node3D"]
 script = ExtResource("1_2vqju")
 
@@ -81,7 +71,7 @@ mesh = SubResource("BoxMesh_lv37r")
 skeleton = NodePath("../..")
 
 [node name="Ceiling" type="MeshInstance3D" parent="Collidable"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 3.1, 0)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 2.9, 0)
 mesh = SubResource("BoxMesh_ug821")
 
 [node name="Box" type="MeshInstance3D" parent="Collidable"]
@@ -113,7 +103,7 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.5, 2.5)
 mesh = SubResource("BoxMesh_g3dco")
 
 [node name="Ceiling2" type="MeshInstance3D" parent="Collidable"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 3.1, -7)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 2.9, -7)
 mesh = SubResource("BoxMesh_776yo")
 
 [node name="Wall4" type="MeshInstance3D" parent="Collidable"]
@@ -166,31 +156,14 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 2, -1.9)
 mesh = SubResource("PrismMesh_2w07r")
 skeleton = NodePath("../../Lamp")
 
-[node name="ButtonInt" type="RigidBody3D" parent="."]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 1.9, 1.3, -2)
-freeze = true
-script = ExtResource("8_sxhdu")
-target_path = NodePath("../test_door")
-model_mesh = SubResource("BoxMesh_rae1v")
-model_material = ExtResource("2_1snmf")
-
-[node name="ContainerInt" type="RigidBody3D" parent="."]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -2, 0.5, 0)
-collision_layer = 3
-collision_mask = 3
-mass = 20.0
-physics_material_override = SubResource("PhysicsMaterial_cps8a")
-freeze = true
-linear_damp = 25.0
-script = ExtResource("9_vu7u2")
-model_mesh = ExtResource("10_nd8tq")
-model_material = ExtResource("11_64c8n")
-
-[node name="Flashlight" parent="." instance=ExtResource("7_wpns3")]
-transform = Transform3D(0.707107, -0.707107, 3.09086e-08, 0, -4.37114e-08, -1, 0.707107, 0.707107, -3.09086e-08, -2, 2.2, 0)
-
-[node name="test_door" parent="." instance=ExtResource("8_vn5tb")]
-transform = Transform3D(1, 0, -1.74846e-07, 0, 1, 0, 1.74846e-07, 0, 1, 0, 0, -2)
-usable = false
+[node name="Door" type="RigidBody3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -7.45058e-09, 0, -2)
+script = ExtResource("8_3tg25")
 model_mesh = ExtResource("12_fid3s")
-model_material = ExtResource("13_e27lo")
+when_played = 1
+use_sounds = Array[AudioStream]([ExtResource("10_motec")])
+
+[node name="Destructible" type="RigidBody3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -10, 0, -10)
+script = ExtResource("17_fg72y")
+model_mesh = ExtResource("18_hilxa")

@@ -17,10 +17,12 @@ func _redraw(gizmo):
 	var node3d  = gizmo.get_node_3d()
 	
 	var mesh : Mesh = node3d.model_mesh
-	var material : Material = node3d.model_material
-	
-	var lines = mesh.get_faces()
-	var handles = mesh.get_faces()
+	var surfaces = mesh.get_surface_count()
+	for i in range(0, surfaces):
+		var material : Material = mesh.surface_get_material(i)
 		
-	gizmo.add_mesh(mesh, material)
-	gizmo.add_handles(handles, material, [])
+		var lines = mesh.get_faces()
+		var handles = mesh.get_faces()
+			
+		gizmo.add_mesh(mesh, material)
+		gizmo.add_handles(handles, material, [])

@@ -13,6 +13,9 @@ var target_position := start_pos
 var target_rotation := start_rot
 var opened := false
 
+func _init():
+	freeze = true
+
 func _ready():
 	start_pos = global_position
 	start_rot = rotation

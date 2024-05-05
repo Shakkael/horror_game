@@ -8,8 +8,8 @@ var objects = {
 	"flashlight" : preload("res://Items/Hand/flashlight.tscn")
 }
 
-func get_item(name):
-	return items[name]
+func get_item(item_name):
+	return items[item_name]
 
-func get_obj(name):
-	return objects[name]
+func get_obj(obj_name):
+	return objects[obj_name]

@@ -1,11 +1,16 @@
-[gd_resource type="Resource" script_class="SoundsTest" load_steps=6 format=3 uid="uid://byfsuxeitfg0s"]
+[gd_resource type="Resource" script_class="SoundsTest" load_steps=10 format=3 uid="uid://byfsuxeitfg0s"]
 
+[ext_resource type="AudioStream" uid="uid://duxem6nmmw4hu" path="res://SFX/Uses/Steps/Ground/runstep.wav" id="1_4mkfc"]
 [ext_resource type="Script" path="res://SFX/sounds.gd" id="1_neh40"]
-[ext_resource type="AudioStream" uid="uid://dsoy74bodf71r" path="res://SFX/Uses/Steps/step (2).wav" id="2_5dvhk"]
-[ext_resource type="AudioStream" uid="uid://btowc3c7ph41l" path="res://SFX/Uses/Steps/step (3).wav" id="3_hyp2l"]
-[ext_resource type="AudioStream" uid="uid://bh2eiv43vb8pm" path="res://SFX/Uses/Steps/step (4).wav" id="4_i0l4n"]
-[ext_resource type="AudioStream" uid="uid://cegy0seehb3vn" path="res://SFX/Uses/Steps/step (5).wav" id="5_2yol6"]
+[ext_resource type="AudioStream" uid="uid://bvtk0dk7y374c" path="res://SFX/Uses/Steps/Ground/runstep2.wav" id="2_s45sm"]
+[ext_resource type="AudioStream" uid="uid://0resqhvk3cfr" path="res://SFX/Uses/Steps/Ground/runstep3.wav" id="3_7iips"]
+[ext_resource type="AudioStream" uid="uid://0vtgp6qho0s2" path="res://SFX/Uses/Steps/Ground/runstep4.wav" id="4_jjdmn"]
+[ext_resource type="AudioStream" uid="uid://dsoy74bodf71r" path="res://SFX/Uses/Steps/Ground/step.wav" id="6_11d7j"]
+[ext_resource type="AudioStream" uid="uid://btowc3c7ph41l" path="res://SFX/Uses/Steps/Ground/step2.wav" id="7_0djrf"]
+[ext_resource type="AudioStream" uid="uid://bh2eiv43vb8pm" path="res://SFX/Uses/Steps/Ground/step3.wav" id="8_hk6c2"]
+[ext_resource type="AudioStream" uid="uid://cegy0seehb3vn" path="res://SFX/Uses/Steps/Ground/step4.wav" id="9_b2hy1"]
 
 [resource]
 script = ExtResource("1_neh40")
-walk_ground = Array[AudioStream]([ExtResource("2_5dvhk"), ExtResource("3_hyp2l"), ExtResource("4_i0l4n"), ExtResource("5_2yol6")])
+walk_ground = Array[AudioStream]([ExtResource("6_11d7j"), ExtResource("7_0djrf"), ExtResource("8_hk6c2"), ExtResource("9_b2hy1")])
+run_ground = Array[AudioStream]([ExtResource("1_4mkfc"), ExtResource("2_s45sm"), ExtResource("3_7iips"), ExtResource("4_jjdmn")])
