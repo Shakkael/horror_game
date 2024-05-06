@@ -1,6 +1,9 @@
-[gd_resource type="CylinderMesh" format=3 uid="uid://bbanvjj8oj83g"]
+[gd_resource type="CylinderMesh" load_steps=2 format=3 uid="uid://bbanvjj8oj83g"]
+
+[ext_resource type="Material" uid="uid://dwj44uvpjbygl" path="res://Materials/lamp.tres" id="1_8lv6d"]
 
 [resource]
+material = ExtResource("1_8lv6d")
 top_radius = 0.06
 bottom_radius = 0.06
 height = 0.6

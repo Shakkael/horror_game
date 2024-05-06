@@ -32,29 +32,40 @@ var default_fov := 75.0
 var looking_at
 var current_item : Item = null
 
+func _enter_tree():
+	set_multiplayer_authority(name.to_int())
+
 func _ready():
-	Input.set_mouse_mode(Input.MOUSE_MODE_CAPTURED)
+	if is_multiplayer_authority():
+		Input.set_mouse_mode(Input.MOUSE_MODE_CAPTURED)
+		$PlayerSprite2.layers = 256
+		NormalCam.current = is_multiplayer_authority()
+	else:
+		call_deferred("remove_child",$InventoryViewport)
 
 func _process(_delta):
-	PlayCam.global_transform = PlayerCam.global_transform
-	NormalCam.global_transform = PlayerCam.global_transform
-	ItemCam.global_transform = PlayerCam.global_transform
+	if is_multiplayer_authority():
+		PlayCam.global_transform = PlayerCam.global_transform
+		NormalCam.global_transform = PlayerCam.global_transform
+		ItemCam.global_transform = PlayerCam.global_transform
 
 func _physics_process(delta):
-	interaction()
-	escape()
-	movement(delta)
-	raycast()
-	inventory_toggle()
-	drop()
-	
-	move_and_slide()
+	if is_multiplayer_authority():
+		interaction()
+		escape()
+		movement(delta)
+		raycast()
+		inventory_toggle()
+		drop()
+		
+		move_and_slide()
 	
 func _unhandled_input(event):
-	if event is InputEventMouseMotion and Input.get_mouse_mode() == Input.MOUSE_MODE_CAPTURED:
-		rotate_y(-event.relative.x * MOUSE_SENS)
-		$Pivot.rotate_x(-event.relative.y * MOUSE_SENS)
-		$Pivot.rotation.x = clamp($Pivot.rotation.x, -1.2, 1.2)
+	if is_multiplayer_authority():
+		if event is InputEventMouseMotion and Input.get_mouse_mode() == Input.MOUSE_MODE_CAPTURED:
+			rotate_y(-event.relative.x * MOUSE_SENS)
+			$Pivot.rotate_x(-event.relative.y * MOUSE_SENS)
+			$Pivot.rotation.x = clamp($Pivot.rotation.x, -1.2, 1.2)
 
 func hide_inv():
 	PlayerInv.visible = false
@@ -164,14 +175,7 @@ func movement(delta):
 	if direction and moving:
 		velocity.x = direction.x * SPEED * delta * speed_multiplier
 		velocity.z = direction.z * SPEED * delta * speed_multiplier
-		$MoveAnim.play("Moving")
-		if is_on_floor():
-			if !StepsPlayer.playing:
-				if running:
-					StepsPlayer.stream = Steps.run_ground.pick_random()
-				else:
-					StepsPlayer.stream = Steps.walk_ground.pick_random()
-				StepsPlayer.play()
+		rpc("move_anim")
 	else:
 		if !is_on_floor():
 			velocity.x = move_toward(velocity.x, 0, delta)
@@ -179,7 +183,22 @@ func movement(delta):
 		else:
 			velocity.x = move_toward(velocity.x, 0, SPEED*delta)
 			velocity.z = move_toward(velocity.z, 0, SPEED*delta)
-		$MoveAnim.stop()
+		rpc("stop_move_anim")
+
+@rpc("authority","call_local","unreliable_ordered")
+func move_anim():
+	$MoveAnim.play("Moving")
+	if is_on_floor():
+		if !StepsPlayer.playing:
+			if running:
+				StepsPlayer.stream = Steps.run_ground.pick_random()
+			else:
+				StepsPlayer.stream = Steps.walk_ground.pick_random()
+			StepsPlayer.play()
+
+@rpc("authority","call_local","unreliable_ordered")
+func stop_move_anim():
+	$MoveAnim.stop()
 
 func raycast():
 	var collider = RayCast.get_collider()
@@ -211,12 +230,14 @@ func take(slotage : Inventory, item : Item, sending : Inventory):
 	slotage.slots.erase(item)
 	sending.slots.append(item)
 	if slotage == Equipment:
-		update_inv(PlayerInv, slotage, false, sending)
+		if is_multiplayer_authority():
+			update_inv(PlayerInv, slotage, false, sending)
 		update_inv(ContainerInv, sending, false, slotage)
 		Hand.remove_child(Hand.get_child(0))
 		current_item = null
 	else:
-		update_inv(PlayerInv, sending, false, slotage)
+		if is_multiplayer_authority():
+			update_inv(PlayerInv, sending, false, slotage)
 		update_inv(ContainerInv, slotage, false, sending)
 
 func set_cur_item(item : Item):
@@ -248,6 +269,7 @@ func drop():
 		Hand.remove_child(Hand.get_child(0))
 		current_item = null
 
+@rpc("any_peer","call_local","unreliable_ordered")
 func play_use(sound : AudioStream):
 	UsePlayer.stream = sound
 	UsePlayer.play()

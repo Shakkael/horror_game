@@ -22,7 +22,7 @@ var ActionPlayer = AudioStreamPlayer3D.new()
 var DamagePlayer = AudioStreamPlayer3D.new()
 var DamageTimer = Timer.new()
 
-var been_used := false
+@export var been_used := false
 var last_collided_body = null
 
 func _init():
@@ -58,6 +58,9 @@ func _ready():
 		ActionPlayer.play()
 
 func _physics_process(_delta):
+	physics_hit()
+
+func physics_hit():
 	if get_contact_count() > 0 and abs(linear_velocity) > Vector3(0.1,0.1,0.1):
 		var vel = 0
 		for body in get_colliding_bodies():
@@ -77,6 +80,10 @@ func not_looked_at():
 	OutlineMesh.get_surface_override_material(0).set("shader_parameter/blink",false)
 
 func use():
+	rpc("_use")
+
+@rpc("any_peer","call_local","unreliable_ordered")
+func _use():
 	randomize()
 	play_sound()
 	been_used = !been_used

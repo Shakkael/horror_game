@@ -18,7 +18,6 @@ physics_material_override = SubResource("PhysicsMaterial_olcvg")
 script = ExtResource("1_nuoms")
 model_mesh = ExtResource("2_ylxpe")
 action_sounds = Array[AudioStream]([ExtResource("4_v1op7")])
-start_playing = 1
 if_stopped_using = 1
 use_sounds = Array[AudioStream]([ExtResource("4_qnn0p"), ExtResource("5_by48x")])
 

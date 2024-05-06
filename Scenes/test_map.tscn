@@ -7,9 +7,9 @@
 [ext_resource type="Texture2D" uid="uid://p6sbcml5ym1u" path="res://Graphics/Textures/CeilingNormal.png" id="4_0jj5q"]
 [ext_resource type="Material" uid="uid://dq4uesnaa4bt0" path="res://Materials/box_0_5.tres" id="5_jr88c"]
 [ext_resource type="Material" uid="uid://dwj44uvpjbygl" path="res://Materials/lamp.tres" id="7_0rgqr"]
-[ext_resource type="Script" path="res://Classes/door.gd" id="8_3tg25"]
-[ext_resource type="AudioStream" uid="uid://cbukuyybp2q7m" path="res://SFX/Uses/Doors/heavyDoor.wav" id="10_motec"]
-[ext_resource type="ArrayMesh" uid="uid://bw1pjsywl1ni1" path="res://Models/door2.tres" id="12_fid3s"]
+[ext_resource type="PackedScene" uid="uid://cqej4cvhertxb" path="res://Items/Hand/flashlight.tscn" id="8_hybyu"]
+[ext_resource type="PackedScene" uid="uid://4y6v5urwaox3" path="res://Objects/door.tscn" id="8_lxlye"]
+[ext_resource type="PackedScene" uid="uid://mqwn6v5fvdoc" path="res://Objects/container_int.tscn" id="12_wgk1i"]
 [ext_resource type="Script" path="res://Classes/destructible.gd" id="17_fg72y"]
 [ext_resource type="ArrayMesh" uid="uid://bcls1kj36w88m" path="res://Models/tree.tres" id="18_hilxa"]
 
@@ -156,14 +156,14 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 2, -1.9)
 mesh = SubResource("PrismMesh_2w07r")
 skeleton = NodePath("../../Lamp")
 
-[node name="Door" type="RigidBody3D" parent="."]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -7.45058e-09, 0, -2)
-script = ExtResource("8_3tg25")
-model_mesh = ExtResource("12_fid3s")
-when_played = 1
-use_sounds = Array[AudioStream]([ExtResource("10_motec")])
+[node name="Flashlight" parent="." instance=ExtResource("8_hybyu")]
+transform = Transform3D(1, 0, 0, 0, -4.37114e-08, -1, 0, 1, -4.37114e-08, -3, 1, 0)
+
+[node name="Door" parent="." instance=ExtResource("8_lxlye")]
 
 [node name="Destructible" type="RigidBody3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -10, 0, -10)
 script = ExtResource("17_fg72y")
 model_mesh = ExtResource("18_hilxa")
+
+[node name="ContainerInt" parent="." instance=ExtResource("12_wgk1i")]

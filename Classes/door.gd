@@ -38,13 +38,14 @@ func _physics_process(delta):
 		rotate(Vector3.UP, open_speed*delta)
 		pass
 
-func use():
+func _use():
 	if opened:
-		close()
+		rpc("close")
 	else:
-		open()
+		rpc("open")
 	return super()
 
+@rpc("any_peer","call_local","unreliable_ordered")
 func open():
 	if opening == 0:
 		if direction == 0:
@@ -56,6 +57,7 @@ func open():
 		
 	opened = true
 
+@rpc("any_peer","call_local","unreliable_ordered")
 func close():
 	if opening == 0:
 		door_rotate(start_rot)

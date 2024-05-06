@@ -1,0 +1,42 @@
+[gd_scene load_steps=2 format=3 uid="uid://d13v12p3w2inc"]
+
+[ext_resource type="Script" path="res://Scenes/main_menu.gd" id="1_sgd3g"]
+
+[node name="MainMenu" type="Control"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1_sgd3g")
+
+[node name="Singleplayer" type="Button" parent="."]
+custom_minimum_size = Vector2(120, 32)
+layout_mode = 0
+offset_left = 120.0
+offset_top = 152.0
+offset_right = 240.0
+offset_bottom = 184.0
+text = "Singleplayer"
+
+[node name="Multiplayer" type="Button" parent="."]
+custom_minimum_size = Vector2(120, 32)
+layout_mode = 0
+offset_left = 120.0
+offset_top = 192.0
+offset_right = 240.0
+offset_bottom = 224.0
+text = "Multiplayer"
+
+[node name="Quit" type="Button" parent="."]
+custom_minimum_size = Vector2(120, 32)
+layout_mode = 0
+offset_left = 120.0
+offset_top = 232.0
+offset_right = 240.0
+offset_bottom = 264.0
+text = "Quit"
+
+[connection signal="pressed" from="Multiplayer" to="." method="_on_multiplayer_pressed"]
+[connection signal="pressed" from="Quit" to="." method="_on_quit_pressed"]

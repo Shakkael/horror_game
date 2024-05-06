@@ -1,4 +1,4 @@
-[gd_scene load_steps=18 format=3 uid="uid://dx42ep1hy05bl"]
+[gd_scene load_steps=19 format=3 uid="uid://dx42ep1hy05bl"]
 
 [ext_resource type="Script" path="res://Scenes/test_character.gd" id="1_lv1jx"]
 [ext_resource type="Script" path="res://Classes/inventory.gd" id="2_wikqp"]
@@ -74,6 +74,14 @@ _data = {
 "RESET": SubResource("Animation_wrrg0")
 }
 
+[sub_resource type="SceneReplicationConfig" id="SceneReplicationConfig_wshj7"]
+properties/0/path = NodePath(".:position")
+properties/0/spawn = true
+properties/0/replication_mode = 1
+properties/1/path = NodePath(".:rotation")
+properties/1/spawn = true
+properties/1/replication_mode = 1
+
 [node name="PlayerCharacter" type="CharacterBody3D"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, 0)
 script = ExtResource("1_lv1jx")
@@ -102,7 +110,7 @@ render_target_update_mode = 4
 
 [node name="Camera3D" type="Camera3D" parent="InventoryViewport/PlayerViewport"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.5, 0)
-cull_mask = 1048031
+cull_mask = 1047775
 
 [node name="PixelizeViewport" type="SubViewport" parent="InventoryViewport"]
 transparent_bg = true
@@ -162,6 +170,7 @@ layer = 10
 [node name="NormalCam" type="Camera3D" parent="InventoryViewport/InventoryViewport/CanvasLayer"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.5, 0)
 cull_mask = 1048064
+current = true
 
 [node name="Container" parent="InventoryViewport/InventoryViewport/CanvasLayer" instance=ExtResource("4_71kx0")]
 visible = false
@@ -216,6 +225,13 @@ collision_mask = 3
 [node name="DropPoint" type="Node3D" parent="Pivot/PlayerCamera/Pointer"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -1.4, 0)
 
+[node name="PlayerSprite2" type="Sprite3D" parent="."]
+shaded = true
+alpha_cut = 2
+alpha_antialiasing_mode = 1
+texture_filter = 2
+texture = ExtResource("5_5tstd")
+
 [node name="PlayerSprite" type="Sprite3D" parent="."]
 cast_shadow = 3
 shaded = true
@@ -237,7 +253,7 @@ texture = SubResource("ViewportTexture_tbewj")
 [node name="StepsPlayer" type="AudioStreamPlayer3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -1, 0)
 
-[node name="UsePlayer" type="AudioStreamPlayer" parent="."]
+[node name="UsePlayer" type="AudioStreamPlayer3D" parent="."]
 stream = ExtResource("7_de7gm")
 
 [node name="MoveAnim" type="AnimationPlayer" parent="."]
@@ -245,3 +261,6 @@ libraries = {
 "": SubResource("AnimationLibrary_eb2d0")
 }
 speed_scale = 0.5
+
+[node name="MultiplayerSynchronizer" type="MultiplayerSynchronizer" parent="."]
+replication_config = SubResource("SceneReplicationConfig_wshj7")
