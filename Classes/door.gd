@@ -9,9 +9,9 @@ class_name Door
 
 var start_pos := Vector3.ZERO
 var start_rot := Vector3.ZERO
-var target_position := start_pos
-var target_rotation := start_rot
-var opened := false
+@export var target_position := start_pos
+@export var target_rotation := start_rot
+@export var opened := false
 
 func _init():
 	freeze = true
@@ -38,7 +38,7 @@ func _physics_process(delta):
 		rotate(Vector3.UP, open_speed*delta)
 		pass
 
-func _use():
+func use():
 	if opened:
 		rpc("close")
 	else:

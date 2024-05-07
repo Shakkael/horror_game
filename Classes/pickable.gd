@@ -9,17 +9,14 @@ func use():
 
 func pickup():
 	rpc("_pickup")
+	return Relations.get_item(item)
 	
 @rpc("any_peer","call_local","unreliable_ordered")
 func _pickup():
-	queue_free()
-	return Relations.get_item(item)
-
-func in_hand():
-	rpc("_in_hand")
+	call_deferred("queue_free")
 
 @rpc("any_peer","call_local","unreliable_ordered")
-func _in_hand():
+func in_hand():
 	pickable = false
 	InstanceMesh.layers = 32
 

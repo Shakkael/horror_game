@@ -10,8 +10,11 @@ func _ready():
 	super()
 
 func use():
-	$Lamp/SpotLight3D.visible = !$Lamp/SpotLight3D.visible
 	return super()
+
+@rpc("any_peer","call_local")
+func _use():
+	$Lamp/SpotLight3D.visible = !$Lamp/SpotLight3D.visible
 
 func in_hand():
 	$Lamp.layers = 32

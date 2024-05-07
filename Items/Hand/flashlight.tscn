@@ -1,4 +1,4 @@
-[gd_scene load_steps=8 format=3 uid="uid://cqej4cvhertxb"]
+[gd_scene load_steps=9 format=3 uid="uid://cqej4cvhertxb"]
 
 [ext_resource type="Script" path="res://Items/Hand/flashlight.gd" id="1_nuoms"]
 [ext_resource type="CylinderMesh" uid="uid://bbanvjj8oj83g" path="res://Models/flashlight_handle.tres" id="2_ylxpe"]
@@ -9,6 +9,20 @@
 
 [sub_resource type="PhysicsMaterial" id="PhysicsMaterial_olcvg"]
 bounce = 0.1
+
+[sub_resource type="SceneReplicationConfig" id="SceneReplicationConfig_ugo6d"]
+properties/0/path = NodePath("Lamp/SpotLight3D:visible")
+properties/0/spawn = true
+properties/0/replication_mode = 1
+properties/1/path = NodePath(".:rotation")
+properties/1/spawn = true
+properties/1/replication_mode = 1
+properties/2/path = NodePath(".:position")
+properties/2/spawn = true
+properties/2/replication_mode = 1
+properties/3/path = NodePath(".:freeze")
+properties/3/spawn = true
+properties/3/replication_mode = 1
 
 [node name="Flashlight" type="RigidBody3D"]
 transform = Transform3D(1, 0, 0, 0, -4.37114e-08, -1, 0, 1, -4.37114e-08, 0, 0, 0)
@@ -33,3 +47,6 @@ light_indirect_energy = 5.0
 light_volumetric_fog_energy = 6.0
 light_specular = 3.0
 shadow_enabled = true
+
+[node name="MultiplayerSynchronizer" type="MultiplayerSynchronizer" parent="."]
+replication_config = SubResource("SceneReplicationConfig_ugo6d")

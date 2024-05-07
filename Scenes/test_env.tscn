@@ -1,7 +1,6 @@
-[gd_scene load_steps=6 format=3 uid="uid://ckqfgpnveaids"]
+[gd_scene load_steps=5 format=3 uid="uid://ckqfgpnveaids"]
 
 [ext_resource type="PackedScene" uid="uid://cc5tqc12c6hxq" path="res://Scenes/test_map.tscn" id="1_hyhmg"]
-[ext_resource type="PackedScene" uid="uid://dx42ep1hy05bl" path="res://Scenes/character.tscn" id="2_eac8q"]
 
 [sub_resource type="ProceduralSkyMaterial" id="ProceduralSkyMaterial_ibk6h"]
 
@@ -33,6 +32,3 @@ environment = SubResource("Environment_m5qu2")
 transform = Transform3D(0.959494, 0.0214606, 0.280911, -0.168008, 0.843982, 0.50938, -0.226152, -0.535942, 0.813401, 0, 2, 0)
 light_energy = 0.4
 shadow_enabled = true
-
-[node name="CharacterBody3D" parent="." instance=ExtResource("2_eac8q")]
-transform = Transform3D(0.723654, 0, 0.690162, 0, 1, 0, -0.690162, 0, 0.723654, 2.9, 1, 1.1)

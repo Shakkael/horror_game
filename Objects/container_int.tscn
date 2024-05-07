@@ -1,9 +1,17 @@
-[gd_scene load_steps=3 format=3 uid="uid://mqwn6v5fvdoc"]
+[gd_scene load_steps=4 format=3 uid="uid://mqwn6v5fvdoc"]
 
 [ext_resource type="Script" path="res://Classes/container.gd" id="1_7mbh7"]
 [ext_resource type="BoxMesh" uid="uid://ch8s1bvgl4xw0" path="res://Models/test_container.tres" id="2_7s711"]
+
+[sub_resource type="SceneReplicationConfig" id="SceneReplicationConfig_lk88q"]
+properties/0/path = NodePath(".:slots")
+properties/0/spawn = true
+properties/0/replication_mode = 1
 
 [node name="ContainerInt" type="RigidBody3D"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.6, 1.2)
 script = ExtResource("1_7mbh7")
 model_mesh = ExtResource("2_7s711")
+
+[node name="MultiplayerSynchronizer" type="MultiplayerSynchronizer" parent="."]
+replication_config = SubResource("SceneReplicationConfig_lk88q")

@@ -115,6 +115,10 @@ func update_inv(inventory : Control, slotage : Inventory, title='Inventory', sen
 		if title:
 			inventory.get_node("InvRect/Title/TitleName").text = title
 
+###########
+###########
+###########
+# Podepnij sygnał, żeby wszystkim graczom grał dźwięk
 func interaction():
 	if Input.get_mouse_mode() == Input.MOUSE_MODE_CAPTURED and Input.is_action_just_pressed("interaction"):
 		var sound_play = null
@@ -131,8 +135,7 @@ func interaction():
 				#add close inventory sound
 				
 			elif looking_at is Pickable and looking_at.pickable:
-				var item = looking_at.pickup()
-				Equipment.slots.append(item)
+				Equipment.slots.append(looking_at.pickup())
 				#sound_play = pickup_sfx
 		elif looking_at != null and looking_at is Interactive:
 			sound_play = preload("res://SFX/Uses/sfxUnusable.wav")
@@ -240,34 +243,51 @@ func take(slotage : Inventory, item : Item, sending : Inventory):
 			update_inv(PlayerInv, sending, false, slotage)
 		update_inv(ContainerInv, slotage, false, sending)
 
+##### Signal to change content of hand for all peers
 func set_cur_item(item : Item):
 	current_item = item
 	update_inv(PlayerInv, Equipment)
-	if item != null:
-		var holding_item = Relations.get_obj(current_item.object_to_spawn).instantiate()
-		holding_item.collision_layer = 2
-		holding_item.collision_mask = 2
-		holding_item.freeze = true
-		Hand.add_child(holding_item)
-		holding_item.in_hand()
+	if current_item != null:
+		var holding_item = current_item.name
+		spawn_item.rpc(holding_item, name)
 	elif Hand.get_child_count()>0:
-		Hand.remove_child(Hand.get_child(0))
+		remove_item.rpc(name)
+
+@rpc("any_peer","call_local")
+func spawn_item(item : String, id):
+	var holding_item = Relations.get_obj(item).instantiate()
+	get_parent().get_node(str(id)).Hand.call_deferred("add_child",holding_item)
+	holding_item.collision_layer = 2
+	holding_item.collision_mask = 2
+	holding_item.freeze = true
+	holding_item.in_hand()
+
+@rpc("any_peer","call_local")
+func remove_item(id):
+	var hand = get_parent().get_node(str(id)).Hand
+	hand.call_deferred("remove_child",hand.get_child(0))
 
 func drop():
 	if Input.is_action_just_pressed("drop") and current_item != null:
 		Equipment.slots.erase(current_item)
 		var item_obj : RigidBody3D = Relations.get_obj(current_item.object_to_spawn).instantiate()
-		get_parent().get_child(0).add_child(item_obj)
 		var drop_pos = DropPoint.global_position
-		item_obj.linear_velocity = global_position.direction_to(DropPoint.global_position).normalized()*6
-		item_obj.angular_velocity = Vector3(randi_range(-10,10),randi_range(-10,10),randi_range(-10,10))
-		if drop_pos == null:
-			drop_pos = global_position
-		item_obj.global_position = drop_pos
-		item_obj.global_rotation = global_rotation
-		item_obj.continuous_cd = true
+		var item_target_l_velocity = global_position.direction_to(DropPoint.global_position).normalized()*6
+		var item_target_a_velocity = Vector3(randi_range(-10,10),randi_range(-10,10),randi_range(-10,10))
+		var item_target_g_position = global_position
+		var item_target_g_rotation = global_rotation
+		rpc("spawn_dropped",item_obj,item_target_l_velocity,item_target_a_velocity,item_target_g_position, item_target_g_rotation)
 		Hand.remove_child(Hand.get_child(0))
 		current_item = null
+
+@rpc("any_peer","call_local","unreliable_ordered")
+func spawn_dropped(item : Pickable, l_vel, a_vel, g_pos, g_rot):
+	get_parent().get_child(0).call_deferred("add_child",item)
+	item.linear_velocity = l_vel
+	item.angular_velocity = a_vel
+	item.global_position = g_pos
+	item.global_rotation = g_rot
+	item.continuous_cd = true
 
 @rpc("any_peer","call_local","unreliable_ordered")
 func play_use(sound : AudioStream):

@@ -8,8 +8,8 @@ var objects = {
 	"flashlight" : preload("res://Items/Hand/flashlight.tscn")
 }
 
-func get_item(item_name):
+func get_item(item_name) -> Resource:
 	return items[item_name]
 
-func get_obj(obj_name):
+func get_obj(obj_name) -> PackedScene:
 	return objects[obj_name]

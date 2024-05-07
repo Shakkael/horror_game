@@ -6,7 +6,7 @@
 [resource]
 script = ExtResource("1_wfsvr")
 id = 0
-name = "Flashlight"
+name = "flashlight"
 desc = "Lights up the area, not the mood"
 texture = ExtResource("2_h47u1")
 object_to_spawn = "flashlight"

@@ -80,15 +80,17 @@ func not_looked_at():
 	OutlineMesh.get_surface_override_material(0).set("shader_parameter/blink",false)
 
 func use():
-	rpc("_use")
-
-@rpc("any_peer","call_local","unreliable_ordered")
-func _use():
-	randomize()
-	play_sound()
+	rpc("play_sound")
+	_use.rpc()
 	been_used = !been_used
+	randomize()
 	return use_sounds.pick_random()
 
+@rpc("any_peer","call_local")
+func _use():
+	pass
+
+@rpc("any_peer","call_local","unreliable_ordered")
 func play_sound():
 	if when_played == 0:
 		if !been_used:
