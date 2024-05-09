@@ -27,7 +27,7 @@ func exit_game(id):
 	del_player(id)
 
 func del_player(id):
-	rpc("del_player",id)
+	rpc("_del_player",id)
 	
 @rpc("any_peer","call_local")
 func _del_player(id):
